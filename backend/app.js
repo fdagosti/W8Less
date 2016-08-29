@@ -21,12 +21,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-var staticDir = process.env.NODE_ENV === "production" ? "bin":"build";
+var staticDir = process.env.NODE_ENV === "production" ? "bin":"";
 
 app.use(express.static(path.join(__dirname, 'app_client/' + staticDir)));
 
 app.use('/api', routesApi);
-app.use('/', routes);
+// app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

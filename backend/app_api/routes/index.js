@@ -1,16 +1,18 @@
 var express = require("express");
 var router = express.Router();
 
+var ctrlQueue = require("../controllers/queue");
 
-// enigmes
+// hello
 router.get("/hello", function(req, res){
   res.status(200),
   res.json({result:"fine"});
 });
 
-router.get("/status", function(req, res){
-  res.status(200),
-  res.json({position: 45});
-});
- 
+
+// Queue
+router.get("/queue", ctrlQueue.queueStatus);
+
+// Next
+router.post("/queue/next", ctrlQueue.postNext); 
 module.exports = router;

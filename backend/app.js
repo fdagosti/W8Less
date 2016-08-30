@@ -21,7 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-var staticDir = process.env.NODE_ENV === "production" ? "bin":"";
+// var staticDir = process.env.NODE_ENV === "production" ? "bin":"";
+var staticDir = "";
 
 app.use(express.static(path.join(__dirname, 'app_client/' + staticDir)));
 

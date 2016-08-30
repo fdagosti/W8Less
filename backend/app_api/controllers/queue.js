@@ -1,10 +1,12 @@
+var rouleauDeTicket = require("./rouleauTicket").rouleau;
+
 var sendJsonResponse = function(res, status, content) {
     res.status(status);
     res.json(content);
 };
 
 var queueInfo = {
-  currentPosition : 45,
+  currentPosition : 0,
   maxPosition : 100
 };
 
@@ -13,7 +15,15 @@ module.exports.queueStatus = function(req, res){
 };
 
 module.exports.postNext = function(req, res){
-  queueInfo.currentPosition++;
-  sendJsonResponse(res, 200, queueInfo);
+  if (rouleauDeTicket.currentTicketNumber-1 > queueInfo.currentPosition){
+    queueInfo.currentPosition++;
+    sendJsonResponse(res, 200, queueInfo);
+  }else{
+    sendJsonResponse(res, 403, queueInfo);
+  }
 };
 
+module.exports.postReset = function(req, res){
+  queueInfo.currentPosition = 1;
+  sendJsonResponse(res, 200, queueInfo);
+};

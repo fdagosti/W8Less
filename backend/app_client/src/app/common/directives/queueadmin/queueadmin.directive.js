@@ -9,23 +9,43 @@
       restrict: 'EA',
       templateUrl: 'src/app/common/directives/queueadmin/queueadmin.template.html',
       link: function(scope){
-        console.log("Salut, testing the link"+queue);
-        queue.queueData()
-        .then(function(response){
-          scope.queue = response.data;
-          console.log(response);
-        }, function(err){
-          console.log("ERRROR "+err);
-        });
+        
+        scope.refresh = function(){
+            queue.queueData()
+          .then(function(response){
+            scope.queue = response.data;
+          }, function(err){
+            scope.error = err;
+          });
+
+          queue.getRouleauDeTicket()
+          .then(function(response){
+            scope.rouleau = response.data;
+          }, function(err){
+            scope.error = err;
+          });
+      };
+
         scope.next = function(){
           queue.next()
           .then(function(response){
-            console.log("yeah, next worked");
+            scope.queue = response.data;
+          }, function(err){
+            scope.error = err;
+          });
+        };
+        scope.reset = function(){
+          queue.reset()
+          .then(function(response){
             scope.queue = response.data;
           }, function(error){
-            console.log("error on next");
+            scope.error = error;
           });
-        }
+        };
+
+        scope.refresh();
+
+
       }
     };
   }

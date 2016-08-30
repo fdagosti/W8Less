@@ -1,13 +1,19 @@
 <div class="panel panel-primary">
-      <div class="panel-heading"><h2 class="panel-title">Client Ticket</h2></div>
+      <div class="panel-heading"><h2 class="panel-title">My Ticket</h2></div>
       <div class="panel-body">
+      
         <h3>Numéro de ticket</h3>
-      <p>87</p>
+      <p>{{ticket.number}}</p>
 
       <h3>Position de la queue actuelle</h3>
-      <p>47</p>
+      <p>{{queue.currentPosition}}</p>
 
       <h3>Temps estime</h3>
       <p>3 Minutes</p>
+      <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" ng-click="takeTicket()">Take a ticket</button>
+        
+        
+    </div>
       </div>
     </div>

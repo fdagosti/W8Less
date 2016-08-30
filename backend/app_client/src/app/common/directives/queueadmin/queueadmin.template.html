@@ -9,10 +9,12 @@
       </p>
 
     <p>Current Queue Position: {{queue.currentPosition}}</p>
+    <p>Current rouleau: {{rouleau.currentTicketNumber}}</p>
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default" ng-click="next()">Next</button>
-        <button type="button" class="btn btn-default" ng-click="test()">Reset</button>
+        <button type="button" class="btn btn-default" ng-click="next()">Next Customer</button>
+        <button type="button" class="btn btn-default" ng-click="reset()">Reset Queue</button>
+        <button type="button" class="btn btn-default" ng-click="refresh()">refresh</button>
         
     </div>
   </div>

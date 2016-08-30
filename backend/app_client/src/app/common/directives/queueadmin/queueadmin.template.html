@@ -8,10 +8,10 @@
       <p>This is the panel that will allow to control the queue (go to the next number for example)
       </p>
 
-    <p>Current Queue Position: 35</p>
+    <p>Current Queue Position: {{queue.currentPosition}}</p>
 
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default" ng-click="test()">Next</button>
+        <button type="button" class="btn btn-default" ng-click="next()">Next</button>
         <button type="button" class="btn btn-default" ng-click="test()">Reset</button>
         
     </div>

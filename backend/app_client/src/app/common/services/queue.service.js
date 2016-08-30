@@ -6,7 +6,7 @@
 
   queueData.$inject = ["$http"];   
   function queueData ($http) {
-
+console.log("Inside QueueService");
     var queueData = function(id){
       return $http.get('/api/queue');
     };

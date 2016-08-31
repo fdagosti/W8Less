@@ -12,7 +12,16 @@
 
       link: function(scope){
 
-        
+        scope.$watch("queue", function(){
+          if (!scope.queue) return;
+          if (scope.ticket.number >1 && (scope.ticket.number - scope.queue.currentPosition <2)){
+
+          scope.info = "attention, vous passez bientot";
+          }else{
+
+          scope.info = null;
+          }
+        });
 
         queue.queueData()
         .then(function(response){

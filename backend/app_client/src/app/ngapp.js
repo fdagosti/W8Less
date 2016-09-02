@@ -18,6 +18,12 @@
                 controllerAs:"vm"
                  
             })
+            .when("/tickets", {
+                templateUrl: "src/app/tickets/ticketsList.template.html",
+                controller: "ticketsListCtrl",
+                controllerAs:"vm"
+                 
+            })
             .otherwise({redirectTo: "/"});
 
         $locationProvider.html5Mode(true);

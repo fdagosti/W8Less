@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
 var queuesDB = mongoose.model("queue");
 
-var rouleauDeTicket = require("./rouleauTicket").rouleau;
 
 var sendJsonResponse = function(res, status, content) {
     res.status(status);
@@ -168,6 +167,7 @@ module.exports.postReset = function(req, res){
                 return;
             }
             queue.customerPosition = 0;
+            queue.lastResetDate = Date.now();
             queue.save(function(err, queue){
                 if (err){
                     sendJsonResponse(res, 404, err);

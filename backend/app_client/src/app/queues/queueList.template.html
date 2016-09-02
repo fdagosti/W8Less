@@ -5,7 +5,7 @@
     Wait Less
     <small>Queue Administration</small></h1>
   </div>
-  <div role="alert" ng-show="vm.error" class="alert alert-danger">{{error}}</div>
+  <div role="alert" ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
   
   <div class="row">
     <div class="col-xs-12 col-sm-8">
@@ -24,8 +24,14 @@
     <p></p>
     <div class="row">
       <div class="col-xs-12 list-group-item" ng-repeat="queue in vm.queues">
+        <span class="pull-right">
+          <div class="btn-group-vertical">
+            <button class="btn btn-success" ng-click="vm.nextCustomer(queue)">Next Customer</button>
+            <button class="btn btn-warning" ng-click="vm.resetQueue(queue)">Reset Queue</button>
+            <button class="btn btn-danger" ng-click="vm.deleteQueue(queue)"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+          </div>
+        </span>
         <h4>{{queue.nom}}</h4>
-        <span class="pull-right"><button class="btn btn-danger" ng-click="vm.deleteQueue(queue)"><span class="glyphicon glyphicon-remove"></span> Delete</button></span>
         <p>{{queue.description}}</p>
         <p>Rouleau de ticket:{{queue.rouleau.ticketPosition}}</p>
         <p>position du prochain client: {{queue.customerPosition}}</p>

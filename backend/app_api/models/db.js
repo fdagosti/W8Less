@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 require("./queue");
-require("./rouleau");
 
 mongoose.connection.on("connected", function(){
     console.log("Mongoose connected to "+dbURI);

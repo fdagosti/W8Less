@@ -1,20 +1,23 @@
-<div class="container">
-  
-  <div class="page-header">
-    <h1>
-    Wait Less
-    <small>Testing screens</small></h1>
-  </div>
-  <div role="alert" ng-show="error" class="alert alert-danger">{{error}}</div>
-  
-  <div class="row">
-    <div class="col-xs-12 col-md-6">
-    <hub></hub>    
-    </div>
-    <div class="col-xs-12 col-md-6">
-    <queue-admin/> 
-    </div>
-    
+<div class="container  page-header" style="margin-top:60px;">
 
+  <div class="row well well-lg">
+    <div class="col-md-12">
+    <div role="alert" ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+      <h2 class="text-center">Wait Less</h2>
+
+        <p class="lead">Stop waiting for hours for your turn
+        </p>
+
+      
+        <div class="dropdown">
+        
+          <button href="/register" class="btn title-button hero-btn btn-lg btn-primary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Take a ticket  <span class="caret"></span> 
+          </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+              <li ng-repeat="queue in vm.queues"><a href="/ticket">{{queue.nom}}</a></li>
+            </ul>
+          </div>
+    </div>
   </div>
 </div>

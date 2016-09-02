@@ -116,9 +116,12 @@ var base = "http://localhost:9876/api/";
         rest.post(base+"queues/"+queue._id+"/next")
         .on("success", function(queue, response){
           expect(queue.customerPosition).toBe(1);
+          expect(queue.lastResetDate).toBeDefined();
+          var lastReset = queue.lastResetDate;
           rest.post(base+"queues/"+queue._id+"/reset")
           .on("success", function(queue, response){
             expect(queue.customerPosition).toBe(0);
+            expect(queue.lastResetDate).toBeGreaterThan(lastReset);
             done();
           }).on("failure", function(err, response){
             done.fail(err);

@@ -1,0 +1,45 @@
+<div class="container">
+  
+  <div class="page-header">
+    <h1>
+    Wait Less
+    <small>Your tickets</small></h1>
+  </div>
+  <div role="alert" ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+  
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+    
+      <div class="dropdown">
+        
+          <button href="/register" class="btn title-button hero-btn btn-lg btn-primary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Take a ticket  <span class="caret"></span> 
+          </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+              <li ng-repeat="queue in vm.queues"><a href="" ng-click="vm.createTicket(queue)">{{queue.nom}}</a></li>
+            </ul>
+          </div>
+
+    <p></p>
+    <div class="row">
+      <div class="col-xs-12 list-group-item" ng-repeat="ticket in vm.tickets">
+        <h1 style="text-align:center">{{ticket.number}}</h1>
+        <span class="pull-right">
+            <button class="btn btn-danger" ng-click="vm.deleteTicket(ticket)"><span class="glyphicon glyphicon-remove"></span> Delete ticket</button>
+        </span>
+        
+        <p>for the queue <strong>{{ticket.sourceQueueName}}</strong></p>
+        <p>ticket created on {{ticket.creationDate | date: 'short'}}</p>
+        <div role="alert" class="alert alert-danger" ng-show="ticket.invalid">Ticket is invalid: {{ticket.invalidReason}}</div>
+      </div>
+      <p class="lead" ng-show="vm.tickets.length ===0">You don't have any Tickets stored on your device. Why don't you take one from your various queues ?</p>
+    </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <p class="lead">This is the admin screen to handle the list of tickets stored locally on this device
+      </p>
+    </div>
+    
+
+  </div>
+</div>

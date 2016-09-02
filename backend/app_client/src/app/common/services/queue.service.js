@@ -4,8 +4,8 @@
   .module('w8lessApp')
   .service('queue', queueData);
 
-  queueData.$inject = ["$http", "$window"];   
-  function queueData ($http, $window) {
+  queueData.$inject = ["$http"];   
+  function queueData ($http) {
 
     var queueList = function(){
       return $http.get("/api/queues");
@@ -19,38 +19,18 @@
       return $http.get('/api/queue');
     };
 
-    var next = function(){
+    var next = function(queue){
 
-      return $http.post("/api/queue/next");
+      return $http.post("/api/queues/"+queue._id+"/next");
     };
 
-    var reset = function(){
+    var reset = function(queue){
 
-      return $http.post("/api/queue/reset");
+      return $http.post("/api/queues/"+queue._id+"/reset");
     };
 
-    var _saveTicket = function(ticket){
-      $window.localStorage["w8less-ticket"] = JSON.stringify(ticket);
-    }
 
-    var createTicket = function(){
-      return $http.post("/api/ticket").then(function(response){
-        _saveTicket(response.data);
-        return response;
-      });
-    };
-
-    var getRouleauDeTicket = function(){
-      return $http.get("/api/ticket");
-    }
-
-    var getTicket = function(){
-      var ticket = $window.localStorage["w8less-ticket"];
-      if (ticket){
-        return JSON.parse(ticket);
-      }
-      return null;
-    };
+    
 
     var deleteQueue = function(queueToDel){
       return $http.delete("/api/queues/"+queueToDel._id);
@@ -60,9 +40,6 @@
      queueData : queueData,
      next: next,
      reset: reset,
-     createTicket: createTicket,
-     getTicket: getTicket,
-     getRouleauDeTicket : getRouleauDeTicket,
      queueList : queueList,
      createQueue: createQueue,
      deleteQueue: deleteQueue

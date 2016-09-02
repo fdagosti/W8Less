@@ -18,14 +18,14 @@ router.get("/queues/:queueid", ctrlQueue.queueReadOne);
 router.put("/queues/:queueid", ctrlQueue.queueUpdateOne);
 router.delete("/queues/:queueid", ctrlQueue.queueDeleteOne);
 
-// Ticket
-router.post("/ticket", ctrlTicket.createTicket);
-router.get("/ticket", ctrlTicket.getRouleauDeTicket);
-
 // Next
 router.post("/queues/:queueid/next", ctrlQueue.postNext); 
 
 // Reset
 router.post("/queues/:queueid/reset", ctrlQueue.postReset);
+
+// Ticket
+router.post("/ticket/:queueid", ctrlTicket.createTicket);
+// router.get("/ticket", ctrlTicket.getRouleauDeTicket);
 
 module.exports = router;

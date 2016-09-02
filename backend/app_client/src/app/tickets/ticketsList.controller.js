@@ -29,7 +29,7 @@
           vm.tickets[i].invalidReason = "Source Queue was not found on the server";
           for (var j = 0; j < vm.queues.length; j++){
             if (vm.tickets[i].sourceQueue === vm.queues[j]._id){
-              if (vm.tickets[i].createDate > vm.queues[i].lastResetDate){
+              if (vm.tickets[i].creationDate > vm.queues[i].lastResetDate){
                 vm.tickets[i].tmpInvalid = false;
               }else{
                 vm.tickets[i].invalidReason = "ticket is outdated, Queue has been reset";

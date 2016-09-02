@@ -33,7 +33,7 @@ module.exports.createTicket = function(req, res){
 
             var ticket = {
               number: queue.rouleau.ticketPosition,
-              creationDate: Date.now(),
+              creationDate: new Date().toISOString(),
               sourceQueue: queue._id,
               sourceQueueName: queue._id,  // initially, the field is similar to the queue ID. Later, it can have the queue display name
               validationToken: "UN ID BIDON"

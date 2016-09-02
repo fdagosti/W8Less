@@ -167,6 +167,7 @@ module.exports.postReset = function(req, res){
                 return;
             }
             queue.customerPosition = 0;
+            queue.rouleau.ticketPosition = 1;
             queue.lastResetDate = Date.now();
             queue.save(function(err, queue){
                 if (err){

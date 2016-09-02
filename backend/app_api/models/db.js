@@ -41,4 +41,5 @@ if (process.env.NODE_ENV === "production"){
 } else if (process.env.NODE_ENV === "test"){
     dbURI = "mongodb://localhost/unitTests";
 }
+console.log("connecting to database "+dbURI);
 mongoose.connect(dbURI); 

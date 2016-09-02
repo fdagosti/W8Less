@@ -53,7 +53,7 @@ var base = "http://localhost:9876/api/";
           .on("success", function(queues, response){
             expect(queues.length).toBe(2);
             done();
-          }).on("failure", function(err, response){
+          }).on("fail", function(err, response){
             done.fail();
           });
         });
@@ -69,10 +69,10 @@ var base = "http://localhost:9876/api/";
             .on("success", function(queues, response){
               expect(queues.length).toBe(1);
               done();
-            }).on("failure", function(err, response){
+            }).on("fail", function(err, response){
               done.fail();
             });
-          }).on("failure", function(err, response){
+          }).on("fail", function(err, response){
             done.fail();
           });
         });
@@ -88,47 +88,54 @@ var base = "http://localhost:9876/api/";
           .on("success", function(queue, response){
             expect(queue.description).toBe(anotherQueue.description);
             done();
-          }).on("failure", function(err, response){
+          }).on("fail", function(err, response){
             done.fail(err);
           })
-        }).on("failure", function(err, response){
+        }).on("fail", function(err, response){
           done.fail(err);
         })
       });
     });
 
-    it("should increment the current position when calling next", function(done){
+    it("should fail when calling next without taking a ticket", function(done){
       _addQueue("queue1", "desc1", function(queue){
         var previousCustomerPosition = queue.customerPosition;
         expect(previousCustomerPosition).toBe(0);
         rest.post(base+"queues/"+queue._id+"/next")
         .on("success", function(queue, response){
-          expect(queue.customerPosition).toBe(previousCustomerPosition+1);
+          done.fail("you did not take a ticket, it should fail");
+        }).on("fail", function(err, response){
+          expect(response.statusCode).toBe(403);
           done();
-        }).on("failure", function(err, response){
-          done.fail(err);
         });
       });
     });
 
        it("should have its customer position back to 0 when calling reset", function(done){
       _addQueue("queue1", "desc1", function(queue){
-        rest.post(base+"queues/"+queue._id+"/next")
-        .on("success", function(queue, response){
-          expect(queue.customerPosition).toBe(1);
-          expect(queue.lastResetDate).toBeDefined();
-          var lastReset = queue.lastResetDate;
-          rest.post(base+"queues/"+queue._id+"/reset")
+        rest.post(base+"ticket/"+queue._id)
+        .on("success", function(ticket, response){
+          rest.post(base+"queues/"+queue._id+"/next")
           .on("success", function(queue, response){
-            expect(queue.customerPosition).toBe(0);
-            expect(queue.lastResetDate).toBeGreaterThan(lastReset);
-            done();
-          }).on("failure", function(err, response){
+            expect(queue.customerPosition).toBe(1);
+            expect(queue.lastResetDate).toBeDefined();
+            var lastReset = queue.lastResetDate;
+            rest.post(base+"queues/"+queue._id+"/reset")
+            .on("success", function(queue, response){
+              expect(queue.customerPosition).toBe(0);
+              expect(queue.lastResetDate).toBeGreaterThan(lastReset);
+              done();
+            }).on("fail", function(err, response){
+              done.fail(err);
+            });
+          }).on("fail", function(err, response){
             done.fail(err);
           });
-        }).on("failure", function(err, response){
+        }).on("fail", function(err, response){
           done.fail(err);
         });
       });
     });
+
+
   });

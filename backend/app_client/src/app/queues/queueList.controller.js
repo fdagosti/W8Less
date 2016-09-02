@@ -35,7 +35,7 @@ angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue) 
     .then(function(response){
       vm.updateQueues();
     }, function(err){
-      vm.error = err.data;
+      queueToUpdate.error = err.data.message;
     })
   };
 

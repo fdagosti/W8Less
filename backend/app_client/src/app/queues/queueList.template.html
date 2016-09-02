@@ -24,6 +24,7 @@
     <p></p>
     <div class="row">
       <div class="col-xs-12 list-group-item" ng-repeat="queue in vm.queues">
+      <div role="alert" ng-show="queue.error" class="alert alert-danger">{{queue.error}}</div>
         <span class="pull-right">
           <div class="btn-group-vertical">
             <button class="btn btn-success" ng-click="vm.nextCustomer(queue)">Next Customer</button>

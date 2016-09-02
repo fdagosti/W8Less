@@ -135,6 +135,13 @@ module.exports.postNext = function(req, res){
                 sendJsonResponse(res, 400, err);
                 return;
             }
+            if (queue.rouleau.ticketPosition - queue.customerPosition <= 1){
+                sendJsonResponse(res, 403, {
+                    message: "your customers are at the same level as your tickets. Take a ticket first to move to the next customer"
+                });
+                return;
+            }
+
             queue.customerPosition++;
             queue.save(function(err, queue){
                 if (err){

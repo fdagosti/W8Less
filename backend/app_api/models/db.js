@@ -35,7 +35,7 @@ process.once("SIGTERM", function(){
 }); 
 
 var dbURI = "mongodb://localhost/w8less";
-console.log("Node env = "+process.env.NODE_ENV+" mong uri = "+process.env.MONGOLAB_URI);
+console.log("Node env = "+process.env.NODE_ENV+" mong uri = "+process.env.MONGODB_URI);
 if (process.env.NODE_ENV === "production"){
     dbURI = process.env.MONGOLAB_URI;
 } else if (process.env.NODE_ENV === "test"){

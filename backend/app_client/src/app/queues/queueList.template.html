@@ -36,6 +36,7 @@
         <p>Rouleau de ticket:{{queue.rouleau.ticketPosition}}</p>
         <p>position du prochain client: {{queue.customerPosition}}</p>
       </div>
+      <p class="lead" ng-show="vm.queues.length ===0">You don't have any queues created on your servers. Please create one with the form above</p>
     </div>
     </div>
     <div class="col-xs-12 col-sm-4">

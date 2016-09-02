@@ -12,6 +12,12 @@
                  controller: "landingCtrl",
                  controllerAs: "vm"
             })
+            .when("/queues", {
+                templateUrl: "src/app/queues/queueList.template.html",
+                controller: "queueListCtrl",
+                controllerAs:"vm"
+                 
+            })
             .otherwise({redirectTo: "/"});
 
         $locationProvider.html5Mode(true);

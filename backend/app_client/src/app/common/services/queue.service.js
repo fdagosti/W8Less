@@ -7,6 +7,14 @@
   queueData.$inject = ["$http", "$window"];   
   function queueData ($http, $window) {
 
+    var queueList = function(){
+      return $http.get("/api/queues");
+    };
+
+    var createQueue = function(newQueue){
+      return $http.post("/api/queues/", newQueue);
+    };
+
     var queueData = function(id){
       return $http.get('/api/queue');
     };
@@ -44,6 +52,9 @@
       return null;
     };
 
+    var deleteQueue = function(queueToDel){
+      return $http.delete("/api/queues/"+queueToDel._id);
+    }
    
    return {
      queueData : queueData,
@@ -51,7 +62,10 @@
      reset: reset,
      createTicket: createTicket,
      getTicket: getTicket,
-     getRouleauDeTicket : getRouleauDeTicket
+     getRouleauDeTicket : getRouleauDeTicket,
+     queueList : queueList,
+     createQueue: createQueue,
+     deleteQueue: deleteQueue
    };
  }
 })();

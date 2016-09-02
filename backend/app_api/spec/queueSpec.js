@@ -97,19 +97,35 @@ var base = "http://localhost:9876/api/";
       });
     });
 
-    // it("should increment the current position when calling next", function(done){
-    //   rest.get(base+"queue")
-    //   .on("success", function(data, response){
-    //     var currentPosition = data.currentPosition;
-    //     rest.post(base+"queue/next")
-    //     .on("success", function(data, response){
-    //       expect(data.currentPosition).toBe(currentPosition+1);
-    //       done();
-    //     }).on("fail", function(err, response){
-    //       done.fail();
-    //     });
-    //   }).on("fail", function(err, response){
-    //     done.fail(err);
-    //   });
-    // });
+    it("should increment the current position when calling next", function(done){
+      _addQueue("queue1", "desc1", function(queue){
+        var previousCustomerPosition = queue.customerPosition;
+        expect(previousCustomerPosition).toBe(0);
+        rest.post(base+"queues/"+queue._id+"/next")
+        .on("success", function(queue, response){
+          expect(queue.customerPosition).toBe(previousCustomerPosition+1);
+          done();
+        }).on("failure", function(err, response){
+          done.fail(err);
+        });
+      });
+    });
+
+       it("should have its customer position back to 0 when calling reset", function(done){
+      _addQueue("queue1", "desc1", function(queue){
+        rest.post(base+"queues/"+queue._id+"/next")
+        .on("success", function(queue, response){
+          expect(queue.customerPosition).toBe(1);
+          rest.post(base+"queues/"+queue._id+"/reset")
+          .on("success", function(queue, response){
+            expect(queue.customerPosition).toBe(0);
+            done();
+          }).on("failure", function(err, response){
+            done.fail(err);
+          });
+        }).on("failure", function(err, response){
+          done.fail(err);
+        });
+      });
+    });
   });

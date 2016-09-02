@@ -23,9 +23,9 @@ router.post("/ticket", ctrlTicket.createTicket);
 router.get("/ticket", ctrlTicket.getRouleauDeTicket);
 
 // Next
-router.post("/queue/next", ctrlQueue.postNext); 
+router.post("/queues/:queueid/next", ctrlQueue.postNext); 
 
 // Reset
-router.post("/queue/reset", ctrlQueue.postReset);
+router.post("/queues/:queueid/reset", ctrlQueue.postReset);
 
 module.exports = router;

@@ -117,15 +117,63 @@ module.exports.queueDeleteOne = function(req, res){
 
 
 module.exports.postNext = function(req, res){
-  if (rouleauDeTicket.currentTicketNumber-1 > queueInfo.currentPosition){
-    queueInfo.currentPosition++;
-    sendJsonResponse(res, 200, queueInfo);
-  }else{
-    sendJsonResponse(res, 403, queueInfo);
-  }
+    if (!req.params.queueid) {
+        sendJsonResponse(res, 404, {
+            message: "Not found, queueid is required"
+        });
+        return;
+    }
+    queuesDB
+    .findById(req.params.queueid)
+    .exec(
+        function(err, queue) {
+            if (!queue){
+                sendJsonResponse(res, 404, {
+                    message: "queueid not found"
+                });
+                return;
+            } else if (err) {
+                sendJsonResponse(res, 400, err);
+                return;
+            }
+            queue.customerPosition++;
+            queue.save(function(err, queue){
+                if (err){
+                    sendJsonResponse(res, 404, err);
+                } else {
+                    sendJsonResponse(res, 200, queue);
+                }
+            });
+        });
 };
 
 module.exports.postReset = function(req, res){
-  queueInfo.currentPosition = 1;
-  sendJsonResponse(res, 200, queueInfo);
+   if (!req.params.queueid) {
+        sendJsonResponse(res, 404, {
+            message: "Not found, queueid is required"
+        });
+        return;
+    }
+    queuesDB
+    .findById(req.params.queueid)
+    .exec(
+        function(err, queue) {
+            if (!queue){
+                sendJsonResponse(res, 404, {
+                    message: "queueid not found"
+                });
+                return;
+            } else if (err) {
+                sendJsonResponse(res, 400, err);
+                return;
+            }
+            queue.customerPosition = 0;
+            queue.save(function(err, queue){
+                if (err){
+                    sendJsonResponse(res, 404, err);
+                } else {
+                    sendJsonResponse(res, 200, queue);
+                }
+            });
+        });
 };

@@ -1,8 +1,13 @@
 ((function(){
 
-angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue) {
+angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue, mySocket) {
   var vm = this;
   
+  mySocket.removeAllListeners();
+  mySocket.on("queue update", function(newQueue){
+    vm.updateQueues();
+  });
+
   vm.updateQueues = function(){
     queue.queueList()
     .then(function(response){

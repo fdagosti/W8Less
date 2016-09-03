@@ -1,6 +1,9 @@
 (function(){
 
-    angular.module("w8lessApp", ["ngRoute"]);
+    angular.module("w8lessApp", ["ngRoute", "btford.socket-io"])
+    .factory("mySocket", function(socketFactory){
+        return socketFactory();
+    });
 
     function config ($routeProvider, $locationProvider,$httpProvider) {
         $httpProvider.useLegacyPromiseExtensions(false);

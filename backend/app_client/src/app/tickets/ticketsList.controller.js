@@ -1,7 +1,13 @@
 ((function(){
 
-  angular.module('w8lessApp').controller('ticketsListCtrl', function($scope, queue, ticketService) {
+  angular.module('w8lessApp').controller('ticketsListCtrl', function($scope, queue, ticketService, mySocket) {
     var vm = this;
+
+    mySocket.removeAllListeners();
+    mySocket.on("queue update", function(newQueue){
+      _updateQueues();
+    });
+
 
     vm.createTicket = function(queue){
       ticketService.createTicket(queue)
@@ -22,7 +28,7 @@
       vm.listTickets();
     };
 
-    _syncQueueNamesWithTickets = function(){
+    var _syncQueueNamesWithTickets = function(){
       if (vm.queues && vm.tickets){
         for (var i = 0; i < vm.tickets.length; i++){
           vm.tickets[i].tmpInvalid = true;
@@ -31,6 +37,8 @@
             if (vm.tickets[i].sourceQueue === vm.queues[j]._id){
               if (vm.tickets[i].creationDate > vm.queues[i].lastResetDate){
                 vm.tickets[i].tmpInvalid = false;
+                _checkCustomerAboutToPass(vm.tickets[i], vm.queues[i]);
+                _putQueuePositionIntoTicket(vm.tickets[i], vm.queues[i]);
               }else{
                 vm.tickets[i].invalidReason = "ticket is outdated, Queue has been reset";
               }
@@ -45,16 +53,28 @@
       }
     };
 
+    var _putQueuePositionIntoTicket = function(ticket, queue){
+      ticket.queuePosition = queue.customerPosition;
+    };
+
+    var _checkCustomerAboutToPass = function(ticket, queue){
+      var customerDistance = ticket.number - queue.customerPosition;
+      ticket.customerDistance = customerDistance;
+    };
+
     vm.listTickets();
 
-    queue.queueList()
-    .then(function(response){
-      vm.queues = response.data;
-      _syncQueueNamesWithTickets();
-    }, function(error){
-      vm.error = error;
-    });
+    var _updateQueues = function(){
+      queue.queueList()
+      .then(function(response){
+        vm.queues = response.data;
+        _syncQueueNamesWithTickets();
+      }, function(error){
+        vm.error = error;
+      });
+    };
 
-  });
+    _updateQueues();
+    });
 
 })());

@@ -45,6 +45,8 @@ module.exports.createTicket = function(req, res){
                 if (err){
                     sendJsonResponse(res, 404, err);
                 } else {
+                    var io = require("../../app").settings["socket.io"];
+                    io.emit("queue update", queue);
                     sendJsonResponse(res, 200, ticket);
                 }
             });

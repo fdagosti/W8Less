@@ -12,9 +12,9 @@
     
       <div class="dropdown">
         
-          <button href="/register" class="btn title-button hero-btn btn-lg btn-primary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Take a ticket  <span class="caret"></span> 
-          </button>
+          <button ng-class="{disabled: vm.queues.length ==0}" href="/register" class="btn title-button hero-btn btn-lg btn-primary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Take a ticket  <span ng-hide="vm.queues.length == 0" class="caret"></span> 
+          </button> <span ng-show="vm.queues.length == 0">&nbsp No Source Queues found. Create some queues before</span>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
               <li ng-repeat="queue in vm.queues"><a href="" ng-click="vm.createTicket(queue)">{{queue.nom}}</a></li>
             </ul>
@@ -23,7 +23,8 @@
     <p></p>
     <div class="row">
       <div class="col-xs-12 list-group-item" ng-repeat="ticket in vm.tickets">
-        <h1 style="text-align:center">{{ticket.number}}</h1>
+        <h1 style="text-align:center">{{ticket.number}}<br/><small>Ticket Position</small></h1>
+        <h3 style="text-align:center">{{ticket.queuePosition}}<br/><small>Queue Position</small>  </h3>
         <span class="pull-right">
             <button class="btn btn-danger" ng-click="vm.deleteTicket(ticket)"><span class="glyphicon glyphicon-remove"></span> Delete ticket</button>
         </span>
@@ -31,6 +32,8 @@
         <p>for the queue <strong>{{ticket.sourceQueueName}}</strong></p>
         <p>ticket created on {{ticket.creationDate | date: 'short'}}</p>
         <div role="alert" class="alert alert-danger" ng-show="ticket.invalid">Ticket is invalid: {{ticket.invalidReason}}</div>
+        <div role="alert" class="alert alert-info" ng-show="!ticket.invalid && ticket.customerDistance <=3 && ticket.customerDistance >0">It's your turn soon, only {{ticket.customerDistance}} customers before you</div>
+        <h1 style="text-align:center" role="alert" class="alert alert-warning" ng-show="!ticket.invalid && ticket.customerDistance == 0">It is your turn</h1>
       </div>
       <p class="lead" ng-show="vm.tickets.length ===0">You don't have any Tickets stored on your device. Why don't you take one from your various queues ?</p>
     </div>

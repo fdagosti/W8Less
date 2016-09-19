@@ -15,10 +15,6 @@
       return $http.post("/api/queues/", newQueue);
     };
 
-    var queueData = function(id){
-      return $http.get('/api/queue');
-    };
-
     var next = function(queue){
 
       return $http.post("/api/queues/"+queue._id+"/next");
@@ -29,6 +25,10 @@
       return $http.post("/api/queues/"+queue._id+"/reset");
     };
 
+    var setQueueData = function(queue){
+      return $http.put("/api/queues/"+queue._id, queue);
+    };
+
 
     
 
@@ -37,7 +37,7 @@
     }
    
    return {
-     queueData : queueData,
+     setQueueData : setQueueData,
      next: next,
      reset: reset,
      queueList : queueList,

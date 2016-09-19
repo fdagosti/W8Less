@@ -2,7 +2,6 @@
 
 angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue, mySocket) {
   var vm = this;
-  
   mySocket.removeAllListeners();
   mySocket.on("queue update", function(newQueue){
     vm.updateQueues();
@@ -51,6 +50,15 @@ angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue, 
     }, function(err){
       vm.error = err.data;
     })
+  };
+
+  vm.setCameraControl = function(queueToUpdate){
+    console.log(queueToUpdate);
+    queue.setQueueData(queueToUpdate)
+    .then(function(response){
+    }, function(err){
+      vm.error = err.data;
+    });
   };
 
   vm.updateQueues();

@@ -1,7 +1,14 @@
 var mongoose = require("mongoose");
 var queuesDB = mongoose.model("queue");
+var camera = require("./camera");
 
-
+var _io;
+var io = function(){
+    if (!_io){
+        _io = require("../../app").settings["socket.io"];
+    }
+    return _io;
+}
 
 var sendJsonResponse = function(res, status, content) {
     res.status(status);
@@ -57,8 +64,7 @@ module.exports.queueCreate = function(req, res){
         sendJsonResponse(res, 400, err)
       }else{
         sendJsonResponse(res, 201, queue);
-        var io = require("../../app").settings["socket.io"];
-        io.emit("queue update", queue);
+        io().emit("queue update", queue);
       }
     });
 };
@@ -86,13 +92,15 @@ module.exports.queueUpdateOne = function(req, res){
             }
             queue.nom = req.body.nom;
             queue.description = req.body.description;
+            queue.cameraControl = req.body.cameraControl;
+            queue.customerPosition = req.body.customerPosition;
             queue.save(function(err, queue){
                 if (err){
                     sendJsonResponse(res, 404, err);
                 } else {
-                    var io = require("../../app").settings["socket.io"];
-                    io.emit("queue update", queue);
+                    io().emit("queue update", queue);
                     sendJsonResponse(res, 200, queue);
+                    camera.enableCameraMonitoring(queue.cameraControl);
                 }
             });
         });
@@ -109,8 +117,7 @@ module.exports.queueDeleteOne = function(req, res){
                     sendJsonResponse(res, 404, err);
                     return;
                 }
-                var io = require("../../app").settings["socket.io"];
-                io.emit("queue update", null);
+                io().emit("queue update", null);
                 sendJsonResponse(res, 204, null);
             });
     } else {
@@ -154,8 +161,7 @@ module.exports.postNext = function(req, res){
                 if (err){
                     sendJsonResponse(res, 404, err);
                 } else {
-                    var io = require("../../app").settings["socket.io"];
-                    io.emit("queue update", queue);
+                    io().emit("queue update", queue);
                     sendJsonResponse(res, 200, queue);
                 }
             });
@@ -192,8 +198,7 @@ module.exports.postReset = function(req, res){
                 if (err){
                     sendJsonResponse(res, 404, err);
                 } else {
-                    var io = require("../../app").settings["socket.io"];
-                    io.emit("queue update", queue);
+                    io().emit("queue update", queue);
                     sendJsonResponse(res, 200, queue);
                 }
             });

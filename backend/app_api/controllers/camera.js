@@ -33,6 +33,8 @@ var _pollCameraData = function(cb){
       for (var i = 0; i < queues.length; i++) {
         if (queues[i].cameraControl){
           queues[i].customerPosition = cameraLed;
+          console.log("putting new queue value = ");
+          console.log(queues[i]);
           rest.putJson(self_url()+"/api/queues/"+queues[i]._id, queues[i])
           .on("success", function(data, response){
             console.log("queue updated successfully");

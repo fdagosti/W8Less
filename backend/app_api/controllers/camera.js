@@ -22,7 +22,17 @@ var self_url = function(){
     _self_url = "http://127.0.0.1:" + require("../../app").settings["port"];
   }
   return _self_url;
-}
+};
+
+var _updateQueueWithCameraPosition = function(queueToUpdate, cameraLedPosition){
+  queueToUpdate.customerPosition = cameraLedPosition;
+  rest.putJson(self_url()+"/api/queues/"+queueToUpdate._id, queueToUpdate)
+  .on("success", function(data, response){
+    console.log("Camera position successfully pushed into queue "+queueToUpdate._id);
+  }).on("fail", function(err, reponse){
+    console.error(err);
+  }); 
+};
 
 var _pollCameraData = function(cb){
 
@@ -32,13 +42,7 @@ var _pollCameraData = function(cb){
     .on("success", function(queues, response){
       for (var i = 0; i < queues.length; i++) {
         if (queues[i].cameraControl){
-          queues[i].customerPosition = cameraLed;
-          rest.putJson(self_url()+"/api/queues/"+queues[i]._id, queues[i])
-          .on("success", function(data, response){
-            console.log("Camera position successfully pushed into queue "+queues[i]._id);
-          }).on("fail", function(err, reponse){
-            console.error(err);
-          }); 
+          _updateQueueWithCameraPosition(queues[i], cameraLed);
         }
       }
     }).on("fail", function(err, response){

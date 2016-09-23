@@ -90,10 +90,10 @@ var base = "http://localhost:9876/api/";
             done();
           }).on("fail", function(err, response){
             done.fail(err);
-          })
+          });
         }).on("fail", function(err, response){
           done.fail(err);
-        })
+        });
       });
     });
 

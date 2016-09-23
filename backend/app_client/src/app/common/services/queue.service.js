@@ -34,7 +34,7 @@
 
     var deleteQueue = function(queueToDel){
       return $http.delete("/api/queues/"+queueToDel._id);
-    }
+    };
    
    return {
      setQueueData : setQueueData,

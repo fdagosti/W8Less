@@ -11,7 +11,7 @@
 
     var _saveTicket = function(ticket){
       $window.localStorage[W8LESS_PREFIX+ticket.sourceQueue] = JSON.stringify(ticket);
-    }
+    };
 
     var deleteTicket = function(ticket){
       $window.localStorage.removeItem(W8LESS_PREFIX+ticket.sourceQueue);
@@ -42,7 +42,7 @@
         return JSON.parse(ticket);
       }
       return null;
-    }
+    };
 
     return {
       createTicket: createTicket,

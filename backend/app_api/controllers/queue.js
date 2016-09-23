@@ -8,7 +8,7 @@ var io = function(){
         _io = require("../../app").settings["socket.io"];
     }
     return _io;
-}
+};
 
 var sendJsonResponse = function(res, status, content) {
     res.status(status);
@@ -61,7 +61,7 @@ module.exports.queueCreate = function(req, res){
     }, function(err, queue){
 
       if (err){
-        sendJsonResponse(res, 400, err)
+        sendJsonResponse(res, 400, err);
       }else{
         sendJsonResponse(res, 201, queue);
         io().emit("queue update", queue);

@@ -40,7 +40,7 @@ angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue, 
       vm.updateQueues();
     }, function(err){
       queueToUpdate.error = err.data.message;
-    })
+    });
   };
 
   vm.resetQueue = function(queueToUpdate){
@@ -49,7 +49,7 @@ angular.module('w8lessApp').controller('queueListCtrl', function($scope, queue, 
       vm.updateQueues();
     }, function(err){
       vm.error = err.data;
-    })
+    });
   };
 
   vm.setCameraControl = function(queueToUpdate){

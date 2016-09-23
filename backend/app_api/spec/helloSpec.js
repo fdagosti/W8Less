@@ -17,6 +17,6 @@ describe("A stupid hello test", function(){
 
   it("Test another stuff", function(){
     console.log("yeah testing");
-  })
+  });
 
   });

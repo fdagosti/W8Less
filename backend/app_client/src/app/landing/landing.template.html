@@ -15,7 +15,7 @@
             Take a ticket  <span class="caret"></span> 
           </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-              <li ng-repeat="queue in vm.queues"><a href="/ticket">{{queue.nom}}</a></li>
+              <li ng-repeat="queue in vm.queues"><a ng-click="vm.createTicket(queue._id)" >{{queue.nom}}</a></li>
             </ul>
           </div>
     </div>
